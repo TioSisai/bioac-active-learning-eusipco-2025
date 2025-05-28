@@ -47,14 +47,16 @@ def rename_illegal_files(data_home: str):
     """
     for root, _, _ in os.walk(data_home):
         for wav_file in glob(osp.join(root, '*.wav')):
-            if ' ' in wav_file or '-' in wav_file:
-                new_wav_file = wav_file.replace(' ', '_').replace('-', '_')
+            wav_basename = osp.basename(wav_file)
+            wav_dirname = osp.dirname(wav_file)
+            if ' ' in wav_basename or '-' in wav_basename:
+                new_wav_file = osp.join(wav_dirname, wav_basename.replace(' ', '_').replace('-', '_'))
                 if osp.exists(new_wav_file):
                     os.remove(new_wav_file)
                     logging.debug(f'{osp.basename(new_wav_file)} has been removed.')
                 os.rename(wav_file, new_wav_file)
                 csv_file = wav_file.replace('.wav', '.csv')
-                new_csv_file = csv_file.replace(' ', '_').replace('-', '_')
+                new_csv_file = new_wav_file.replace('.wav', '.csv')
                 if osp.exists(new_csv_file):
                     os.remove(new_csv_file)
                 os.rename(csv_file, new_csv_file)

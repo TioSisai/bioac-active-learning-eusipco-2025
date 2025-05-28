@@ -5,15 +5,22 @@ import pandas as pd
 import numpy as np
 import sys
 import os
+import logging
 from os import path as osp
 
 sys.path.append(osp.dirname(osp.dirname(osp.dirname(__file__))))
-from src.utils import proj_root
+from src.utils import proj_root, load_conf, set_logger
+from src.data import encode_al_h5
 
 
 # 'class_list', 'dist_mtx', 'embeddings', 'labels' in the h5 file
 # 'Mosquito', 'Red_Deer', 'Meerkat_alarm_call', 'Meerkat_move_call', 'Song_thrush_call', 'Blackbird_call', 'Pilot_whale_foraging_buzzes' in the class_list
 # 'anno_idx', 'model', 'valid_cmap', 'valid_f1', 'thres', 'test_f1', 'test_cmap' in the pth file
+
+set_logger(osp.join(proj_root(), 'logs', 'al_eval.log'))
+config = load_conf()
+if not osp.exists(osp.join(proj_root(), 'data', 'AL', 'train_set.h5')):
+    encode_al_h5(config=config)
 
 
 def pool_labels(labels: np.ndarray):
@@ -48,8 +55,8 @@ for full_pth in full_pths:
     full_valid_cmaps.append(state_dict['valid_cmap'].mean())
     full_test_f1s.append(state_dict['test_f1'].mean())
     full_test_cmaps.append(state_dict['test_cmap'].mean())
-print("Full test cmap mean: ", np.mean(full_test_cmaps))
-print("Full test cmap std: ", np.std(full_test_cmaps))
+logging.info(f"Full test cmap mean: {float(np.mean(full_test_cmaps))}")
+logging.info(f"Full test cmap std: {float(np.std(full_test_cmaps))}")
 
 results: list[dict] = []
 total_cls_count = cls_count(train_labels)
@@ -132,4 +139,4 @@ def al_eval():
     df = df.sort_values(['pos_init_num', 'sampling_method', 'num_annotated_samples'], ascending=[True, False, True])
     os.makedirs(project_root / "results", exist_ok=True)
     df.to_csv(project_root / "results" / "al_results.csv", index=False)
-    print("Results CSV generated successfully.")
+    logging.info("Results CSV generated successfully.")

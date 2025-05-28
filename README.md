@@ -1,6 +1,6 @@
 # Hybrid Disagreement-Diversity Active Learning for Bioacoustic Sound Event Detection
 ---
-This repo contains code for our paper: **Hybrid Disagreement-Diversity Active Learning for Bioacoustic Sound Event Detection** in EUSIPCO 2025. It introduces mismatchness-first farthest traversal (MFFT) active learning strategy, which can significantly reduce the number of annotations required for training a classifier in Bioacoustic Sound Event Detection (BioSED) tasks. MFFT uses only 2.3% of the total annotations to achieve mAP performance (68% in cold-start, 71% in warm-start) comparable to fully supervised methods (75%). The results demonstrate MFFT's effeciency in saving labeling budget and the ability to detect rare species events (according to the right sub-figure in the section of `Our results`).
+This repo contains code for [our paper](https://arxiv.org/abs/2505.20956): **Hybrid Disagreement-Diversity Active Learning for Bioacoustic Sound Event Detection** in EUSIPCO 2025. It introduces mismatchness-first farthest traversal (MFFT) active learning strategy, which can significantly reduce the number of annotations required for training a classifier in Bioacoustic Sound Event Detection (BioSED) tasks. MFFT uses only 2.3% of the total annotations to achieve mAP performance (68% in cold-start, 71% in warm-start) comparable to fully supervised methods (75%). The results demonstrate MFFT's effeciency in saving labeling budget and the ability to detect rare species events (according to the right sub-figure in the section of `Our results`).
 
 This repo builds a dataset specifically designed for Active Learning (AL) in the field of Bioacoustic Sound Event Detection (BioSED) (based on DCASE 2024 Task 5).
 
@@ -120,7 +120,7 @@ If you want to manually download the source dataset, please download it in the f
 ## Usage (evaluate our results)
 ---
 ### I. Download the pre-trained encoder weights
-If you want to infer the results of our paper, you can directly download all the models we trained from [this link](https://zenodo.org/xxx) unzip them all and put them in the `/project_root/models` folder. The structure of the `/project_root/models` folder should be like this:
+If you want to infer the results of our paper, you can directly download all the models we trained from [this link](https://zenodo.org/records/15539967/files/models.zip) unzip them all and put them in the `/project_root/models` folder. The structure of the `/project_root/models` folder should be like this:
 ```
 Project_root
 ├── ... (other folders)
@@ -192,7 +192,7 @@ python sl_eval.py
 ```
 
 #### b. If you don't want to train the encoder yourself:
-Sometimes, if you want to reproduce our results as close as possible (The training process always includes some randomness, so the results may not be exactly the same), or simply want to complete the Active Learning process yourself, you can directly ignore this step and use the pre-trained encoder weights we provide. Please download `best_encoder.pth` from [this link](https://zenodo.xxx) and move it to `/project_root/models/sl/best_encoder.pth`.
+Sometimes, if you want to reproduce our results as close as possible (The training process always includes some randomness, so the results may not be exactly the same), or simply want to complete the Active Learning process yourself, you can directly ignore this step and use the pre-trained encoder weights we provide. Please download `best_encoder.pth` from [this link](https://zenodo.org/records/15539967/files/best_encoder.pth) and move it to `/project_root/models/sl/best_encoder.pth`.
 
 ### II. Active Learning
 ---

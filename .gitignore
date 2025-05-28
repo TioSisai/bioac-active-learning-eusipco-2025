@@ -1,0 +1,9 @@
+/.vscode/
+/assets/
+/logs/
+/models/
+/data/
+/LICENSE
+/.env
+*.pyc
+**/__pycache__/

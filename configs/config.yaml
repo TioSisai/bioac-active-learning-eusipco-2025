@@ -1,0 +1,71 @@
+data: &data
+  sr: 32000
+  clip_tlen: 10.
+  hop_tlen: 5.
+  win_length: 1024
+  hop_length: 320
+  n_fft: 1024
+  n_mels: 64
+  fmin: 50
+  fmax: 14000
+  window: "hann"
+  center: true
+  pad_mode: "reflect"
+  ref: 1.0
+  amin: 1e-10
+  top_db:
+
+hyper: &hyper
+  deci_num: 3 # the number of decimal places to round the f1 score, which is used to determine the best sl/al model
+  num_epochs: 5000
+  batch_size: 128
+  early_stop_lr: 5e-6
+  optimizer:
+    lr: 5e-4
+    betas: [0.9, 0.999]
+    eps: 1e-8
+    weight_decay: 0.
+  scheduler:
+    patience: 5
+    factor: 0.5
+    mode: "max"
+    threshold: 1e-4
+    threshold_mode: "rel"
+    cooldown: 0
+
+sl:
+  data:
+    <<: *data
+    aug:
+      time_mask_prob: 0.
+      time_drop_width: 0
+      time_stripes_num: 0
+      freq_mask_prob: 0.5
+      freq_drop_width: 8
+      freq_stripes_num: 2
+      noise_prob: 0.5
+      noise_coef_min: 0.1
+      noise_coef_max: 0.3
+      rand_cut: true
+      balanced: true
+  trainer:
+    <<: *hyper
+
+al:
+  data:
+    <<: *data
+  trainer:
+    <<: *hyper
+    select_mode: "mfft" # str in ["rand", "ft", "mp", "mfft"]
+    init_pos_num_per_class: 0 # non-negative int
+    num_anno_samples_list: # list[int]
+      - 50
+      - 100
+      - 150
+      - 200
+      - 250
+      - 300
+      - 350
+      - 400
+      - 450
+      - 500

@@ -14,7 +14,8 @@ Project_root
 ├── assets
 │   └── <some_images>.png
 ├── configs
-│   ├── config.yaml
+│   └── config.yaml
+├── data
 │   ├── SL (will be automatically generated during supervised training phase)
 |   |   ├── train
 │   |   |   └── <audio_files>.wav
